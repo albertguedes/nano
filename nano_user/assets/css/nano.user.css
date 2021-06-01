@@ -1,0 +1,48 @@
+/**
+ * nano.admin.css - nano admin css style for use with nano.css 
+ */
+main {
+    width: 100%;
+    padding:0;
+    margin:0;
+}
+ 
+article {
+    width: 85%;
+    padding-left: 15%; 
+    float:left;
+}
+
+footer { width: 85%; margin-left: 15%; }
+
+a, a:link, a:visited { color: #aa4400; text-decoration: none; }
+a:hover { color: #803300; }
+
+input[type='submit'] { background: #aa4400; }
+
+header figure { width: 100%; margin:0  }
+header figure a img { padding: 0 }
+
+/**
+ * SIDEBAR
+ */
+aside {
+    width: 15%;
+    position: fixed;
+    min-height: 100%;
+    height: 100%;
+    float:left;
+    background: #aa4400;  
+}
+aside ul { background: none; }
+aside ul li { font-size: 1.0em; font-weight: bolder; }
+aside ul li strong { color: #cccccc; font-weight: 100; }
+
+/**
+ * BREADCRUMBS
+ */
+ nav { padding-bottom: 40px; }
+ nav ul { font-size: 0.7em; margin: 0; }
+ nav ul li { margin:0; padding:0; padding-right: 5px;  }
+ nav ul li a { margin:0; padding:0;  }
+ nav ul li a:hover { color: #803300; margin:0; padding:0;  }

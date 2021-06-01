@@ -1,0 +1,6 @@
+/*
+ * nano.admin.login.css - styles sheet for nano admin login page.
+ */
+
+input[type='text'] { width: 20.4%; }
+input[type='submit'] { background: green; }

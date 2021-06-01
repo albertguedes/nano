@@ -1,0 +1,10 @@
+@CHARSET "UTF-8";
+/**
+ * nano.blog.css - css style to modify nano.css fopr nano blog.
+ */
+
+ h2 { margin: 0; padding-bottom: 12px; }
+a, a:link, a:visited { color: blue; }
+
+input[type='submit'] { background: blue; }
+aside ul { background-color: blue; }
