@@ -4,16 +4,22 @@
  */
 session_start();
 
-if( isset($_SESSION['nano_user']['logged']) && $_SESSION['nano_user']['logged'] ){
-	$host  = $_SERVER['HTTP_HOST'];
-	$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-	$extra = './dashboard.php';
-	header("Location: http://$host$uri/$extra");
+// Get base url.
+$host  = $_SERVER['HTTP_HOST'];
+$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+$base_url = "http://{$host}{$uri}";
+
+// Get base_path.
+$base_path = dirname($_SERVER['SCRIPT_FILENAME']);
+
+// If user has logged, redirect to dashboard.
+if(isset($_SESSION['nano_user']['logged']) && $_SESSION['nano_user']['logged'] ){
+	header("Location: {$base_url}/dashboard.php");
 	exit;
 }
 
 $message = '';
-if($_POST['register']){
+if( isset($_POST['register']) && !is_null($_POST['register']) ){
 
     $register = $_POST['register'];
 
@@ -46,10 +52,7 @@ if($_POST['register']){
         pg_close($link);
 
         if($result){
-            $host  = $_SERVER['HTTP_HOST'];
-            $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-            $extra = './index.php';
-            header("Location: http://$host$uri/$extra");
+            header("Location: {$base_url}/index.php");
             exit;
         }
         else{
@@ -68,9 +71,9 @@ if($_POST['register']){
 	<head>
 		<meta charset='utf-8' >	
 		<title>nano User</title>
-		<link href="./assets/css/nano.css" rel="stylesheet" media='all' >
-		<link href="./assets/css/nano.user.login.css" rel="stylesheet" media='all' >
-		<link rel='shortcut icon' type='image/x-icon' href='./assets/images/favicon.ico' />
+		<link href="<?=$base_url?>/assets/css/nano.css" rel="stylesheet" media='all' >
+		<link href="<?=$base_url?>/assets/css/nano.user.login.css" rel="stylesheet" media='all' >
+		<link rel='shortcut icon' type='image/x-icon' href='<?=$base_url?>/assets/images/favicon.ico' />
 	</head>
 	<body>
 
@@ -78,8 +81,8 @@ if($_POST['register']){
 
 			<header>		
 				<figure>
-					<a href="./index.php" >
-						<img src='./assets/images/logo.svg' alt='nano User' >
+					<a href="<?=$base_url?>/index.php" >
+						<img src='<?=$base_url?>/assets/images/logo.svg' alt='nano User' >
 					</a>
 				</figure>
 			</header>
@@ -87,7 +90,7 @@ if($_POST['register']){
             <nav>
                 <ul>
                     <li>
-                        <a href="./index.php" >Login</a>
+                        <a href="<?=$base_url?>/index.php" >Login</a>
                     </li>
                     <li>/</li>
                     <li><strong>Register</strong>
@@ -100,7 +103,7 @@ if($_POST['register']){
 
                 <?php if($message): ?><p><strong><?=$message?></strong></p><?php endif; ?>
 
-				<form action='./register.php' method='POST' >
+				<form action='<?=$base_url?>/register.php' method='POST' >
                     <label>Name</label><br>
                     <input type='text'     name='register[name]'     placeholder='Type your complete name' ><br>
                     <br>

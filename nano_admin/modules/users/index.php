@@ -12,6 +12,22 @@ $base_url = "http://{$host}{$uri}";
 // Get base_path.
 $base_path = dirname($_SERVER['SCRIPT_FILENAME'],3);
 
+/**
+ * Module config.
+ */
+$mod_name = "users";
+$mod_url = $base_url."/modules/".$mod_name;
+$mods_path = "{$base_path}/modules";
+
+if( $handle = opendir($mods_path) ){
+    $modules = [];
+    while( $dir = readdir($handle) ){
+        if( ( $dir != "." ) && ( $dir != ".." ) ){
+            if( is_dir($mods_path.'/'.$dir) ){ $modules[]=$dir; }
+        }
+    }
+}
+
 // If user has logged, redirect to dashboard.
 if( !(isset($_SESSION['nano_admin']['logged']) && $_SESSION['nano_admin']['logged']) ){
 	header("Location: {$base_url}/logout.php");
@@ -34,16 +50,6 @@ while( $user = pg_fetch_array($result) ){ $users[]= $user; }
 pg_free_result($result);
 
 pg_close($link); 
-
-$modules_path = "{$base_path}/modules";
-if( $handle = opendir($modules_path) ){
-    $modules = [];
-    while( $dir = readdir($handle) ){
-        if( ( $dir != "." ) && ( $dir != ".." ) ){
-            if( is_dir($modules_path.'/'.$dir) ){ $modules[]=$dir; }
-        }
-    }
-}
 
 ?><!DOCTYPE HTML>
 <html lang='pt-br' >
@@ -99,7 +105,7 @@ if( $handle = opendir($modules_path) ){
 
                 <h1>Users Administration</h1>
 
-                <p>To add new user click <a href='<?=$base_url?>/modules/users/add.php' >here</a>.</p>
+                <p>To add new user click <a href='<?=$mod_url?>/add.php' >here</a>.</p>
 
                 <br>
                 <?php if( $num_rows > 0 ): ?>
@@ -116,17 +122,17 @@ if( $handle = opendir($modules_path) ){
                         <?php foreach( $users as $user ): ?>
                         <tr>
                             <td><?=$user['id']?></td>
-                            <td><a href='<?=$base_url?>/modules/users/view.php?id=<?=$user['id']?>' ><?=$user['username']?></a></td>
+                            <td><a href='<?=$mod_url?>/view.php?id=<?=$user['id']?>' ><?=$user['username']?></a></td>
                             <td>
                                 <?php if( $user['is_active'] == 't' ): ?>
-                                <i>ACTIVE</i>
+                                <strong>ACTIVE</strong>
                                 <?php else: ?>
                                 <b>BLOCKED</b>
                                 <?php endif; ?>
                             </td>
                             <td>
-                                <a href='<?=$base_url?>/modules/users/edit.php?id=<?=$user['id']?>' title="Edit User" ><u>&xodot;</u></a>
-                                <a href='<?=$base_url?>/modules/users/delete.php?id=<?=$user['id']?>' title="Delete User" ><b>&xotime;</b></a>
+                                <a href='<?=$mod_url?>/edit.php?id=<?=$user['id']?>' title="Edit User" ><strong>&xodot;</strong></a>
+                                <a href='<?=$mod_url?>/delete.php?id=<?=$user['id']?>' title="Delete User" ><b>&xotime;</b></a>
                             </td>
                         </tr>
                         <?php endforeach; ?>

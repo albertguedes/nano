@@ -4,26 +4,28 @@
  */
 session_start();
 
-if(!$_SESSION['nano_user']['logged']){
+// Get base url.
+$host  = $_SERVER['HTTP_HOST'];
+$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+$base_url = "http://{$host}{$uri}";
 
-	$host  = $_SERVER['HTTP_HOST'];
-	$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-	$extra = 'logout.php';
+// Get base_path.
+$base_path = dirname($_SERVER['SCRIPT_FILENAME']);
 
-	header("Location: http://$host$uri/$extra");
-
+// If user has logged, redirect to dashboard.
+if(!(isset($_SESSION['nano_user']['logged']) && $_SESSION['nano_user']['logged']) ){
+	header("Location: {$base_url}/logout.php");
 	exit;
-
 }
 
-$modules_path = "./modules";
-if( $handle=opendir($modules_path) ){
+$mods_path = $base_path."/modules";
+if( $handle=opendir($mods_path) ){
 
     $modules = array();
     while( $dir=readdir($handle) ){
 
         if( ( $dir != "." ) && ( $dir != ".." ) ){
-            if( is_dir($modules_path.'/'.$dir) ){ $modules[]=$dir; }
+            if( is_dir($mods_path.'/'.$dir) ){ $modules[]=$dir; }
         }
 
     }
@@ -35,9 +37,9 @@ if( $handle=opendir($modules_path) ){
     <head>
         <meta charset='utf-8' >	
         <title>dashboard | nano Admin</title>
-        <link href="./assets/css/nano.css" rel="stylesheet" media='all' >
-        <link href="./assets/css/nano.user.css" rel="stylesheet" >
-        <link rel='shortcut icon' type='image/x-icon' href='./assets/images/favicon.ico' />        
+        <link href="<?=$base_url?>/assets/css/nano.css" rel="stylesheet" media='all' >
+        <link href="<?=$base_url?>/assets/css/nano.user.css" rel="stylesheet" >
+        <link rel='shortcut icon' type='image/x-icon' href='<?=$base_url?>/assets/images/favicon.ico' />
     </head>
     <body>
 
@@ -47,23 +49,23 @@ if( $handle=opendir($modules_path) ){
 
                 <header>		
                     <figure>
-                        <a href="./dashboard.php" >
-                            <img src='./assets/images/logo.svg' alt='nano User' >
+                        <a href="<?=$base_url?>/dashboard.php" >
+                            <img src='<?=$base_url?>/assets/images/logo.svg' alt='nano User' >
                         </a>
                     </figure>
                 </header>
 
                 <ul>
                     <li><strong>Dashboard</strong></li>
-                    <li><a href='./profile/index.php' >Profile</a></li>
+                    <li><a href='<?=$base_url?>/profile/index.php' >Profile</a></li>
                     <li><span>Modules</span><br>
                         <ul>
                             <?php foreach( $modules as $module ): ?>
-                            <li><a href='../modules/<?=$module?>/index.php' ><?=ucfirst($module)?></a></li>
+                            <li><a href='<?=$base_url?>/modules/<?=$module?>/index.php' ><?=ucfirst($module)?></a></li>
                             <?php endforeach; ?>
                         </ul>
                     </li>
-                    <li><a href='./logout.php' >Logout</a></li>
+                    <li><a href='<?=$base_url?>/logout.php' >Logout</a></li>
                 </ul>
 
             </aside>

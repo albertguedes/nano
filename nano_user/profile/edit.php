@@ -4,12 +4,28 @@
  */
 session_start();
 
-if( !$_SESSION['nano_user']['logged'] || !$_SESSION['nano_user']['user'] ){
-	$host  = $_SERVER['HTTP_HOST'];
-	$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-	$extra = '../../index.php';
-	header("Location: http://$host$uri/$extra");
+// Get base url.
+$host  = $_SERVER['HTTP_HOST'];
+$uri   = rtrim(dirname($_SERVER['PHP_SELF'],2), '/\\');
+$base_url = "http://{$host}{$uri}";
+
+// Get base_path.
+$base_path = dirname($_SERVER['SCRIPT_FILENAME'],2);
+
+// If user has logged, redirect to dashboard.
+if(!(isset($_SESSION['nano_user']['logged']) && $_SESSION['nano_user']['logged']) ){
+	header("Location: {$base_url}/logout.php");
 	exit;
+}
+
+$mods_path = $base_path."/modules";
+if( $handle=opendir($mods_path) ){
+    $modules = array();
+    while( $dir=readdir($handle) ){
+        if( ( $dir != "." ) && ( $dir != ".." ) ){
+            if( is_dir($mods_path.'/'.$dir) ){ $modules[]=$dir; }
+        }
+    }
 }
 
 $id = $_SESSION['nano_user']['user'];
@@ -52,10 +68,7 @@ if($_POST['profile']){
     pg_close($link);
     
     if($result){
-        $host  = $_SERVER['HTTP_HOST'];
-        $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-        $extra = 'index.php';
-        header("Location: http://$host$uri/$extra");
+        header("Location: {$base_url}/profile/index.php");
         exit;  
     }
     else{
@@ -80,24 +93,14 @@ pg_free_result($result);
 
 pg_close($link);
 
-$modules_path = "../modules";
-if( $handle=opendir($modules_path) ){
-    $modules = array();
-    while( $dir=readdir($handle) ){
-        if( ( $dir != "." ) && ( $dir != ".." ) ){
-            if( is_dir($modules_path.'/'.$dir) ){ $modules[]=$dir; }
-        }
-    }
-}
-
 ?><!DOCTYPE HTML>
 <html lang='pt-br' >
 <head>
         <meta charset='utf-8' >	
         <title>edit profile | nano Admin</title>
-        <link href="../assets/css/nano.css" rel="stylesheet" media='all' >
-        <link href="../assets/css/nano.user.css" rel="stylesheet" media='all' >
-        <link rel='shortcut icon' type='image/x-icon' href='../assets/images/favicon.ico' />
+        <link href="<?=$base_url?>/assets/css/nano.css" rel="stylesheet" media='all' >
+        <link href="<?=$base_url?>/assets/css/nano.user.css" rel="stylesheet" media='all' >
+        <link rel='shortcut icon' type='image/x-icon' href='<?=$base_url?>/assets/images/favicon.ico' />
     </head>
     <body>
         <main>
@@ -106,23 +109,23 @@ if( $handle=opendir($modules_path) ){
 
                 <header>		
                     <figure>
-                        <a href="../dashboard.php" >
-                            <img src='../assets/images/logo.svg' alt='nano Admin' >
+                        <a href="<?=$base_url?>/dashboard.php" >
+                            <img src='<?=$base_url?>/assets/images/logo.svg' alt='nano Admin' >
                         </a>
                     </figure>
                 </header>
 
                 <ul>
-                    <li><a href='../dashboard.php' >Dashboard</a></li>                    
+                    <li><a href='<?=$base_url?>/dashboard.php' >Dashboard</a></li>                    
                     <li><strong>Profile</strong></li>
                     <li><span>Modules</span><br>
                         <ul>
                             <?php foreach( $modules as $module ): ?>
-                            <li><a href='../modules/<?=$module?>/index.php' ><?=ucfirst($module)?></a></li>
+                            <li><a href='<?=$base_url?>/modules/<?=$module?>/index.php' ><?=ucfirst($module)?></a></li>
                             <?php endforeach; ?>
                         </ul>
                     </li>
-                    <li><a href='../logout.php' >Logout</a></li>
+                    <li><a href='<?=$base_url?>/logout.php' >Logout</a></li>
                 </ul>
 
             </aside>
@@ -132,9 +135,9 @@ if( $handle=opendir($modules_path) ){
                 <nav>
                     <div>
                         <ul>
-                            <li><a href='../../dashboard.php' >Dashboard</a></li>
+                            <li><a href='<?=$base_url?>/dashboard.php' >Dashboard</a></li>
                             <li>/</li>
-                            <li><a href='./index.php' >Profile</a></li>
+                            <li><a href='<?=$base_url?>/profile/index.php' >Profile</a></li>
                             <li>/</li>
                             <li><span>Edit</span></li>
                         </ul>
@@ -146,7 +149,7 @@ if( $handle=opendir($modules_path) ){
                 <h1>Edit Profile</h1>
 
                 <hr>
-                    <a href="./index.php" >View</a> &#8226;
+                    <a href="<?=$base_url?>/profile/index.php" >View</a> &#8226;
                     <span>Edit</span>
                 <hr>
                 
@@ -156,7 +159,7 @@ if( $handle=opendir($modules_path) ){
                 <p><strong><?=$message?></strong></p>
                 <?php endif; ?>
 
-                <form action="./edit.php" method="POST" >
+                <form action="<?=$base_url?>/profile/edit.php" method="POST" >
                     <table>
                         <tbody>
                             <tr>
