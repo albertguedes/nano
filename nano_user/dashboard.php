@@ -55,8 +55,14 @@ if( $handle=opendir($modules_path) ){
 
                 <ul>
                     <li><strong>Dashboard</strong></li>
-                    <li><a href='./profile/index.php' >Profile</a></li>                    
-                    <li><a href='./sample/index.php' >Sample</a></li>
+                    <li><a href='./profile/index.php' >Profile</a></li>
+                    <li><span>Modules</span><br>
+                        <ul>
+                            <?php foreach( $modules as $module ): ?>
+                            <li><a href='../modules/<?=$module?>/index.php' ><?=ucfirst($module)?></a></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </li>
                     <li><a href='./logout.php' >Logout</a></li>
                 </ul>
 

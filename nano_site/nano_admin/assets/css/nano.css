@@ -51,7 +51,6 @@ footer {
     padding: 20px 0; 
 }
 
-
 /*
  * Line Elements. 
  */
@@ -70,6 +69,12 @@ h6 { color: #777; line-height: 0.85em; font-size: 0.8em; text-transform: upperca
 ul { list-style: square; list-style-position: inside; margin-bottom: 40px; }
 ol { list-style: decimal; list-style-position: inside; margin-bottom: 40px; }
 
+u { color: yellow; }
+b { color: red; }
+
+/*
+ * List elements.
+ */
 dl dt { color: #222222; font-weight: bolder; text-transform: uppercase; }
 dl dd { color: #444444; font-style: italic; }
 

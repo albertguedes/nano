@@ -4,13 +4,10 @@
  */
 session_start();
 
-if(isset($_SESSION['logged'])){
-	$host  = $_SERVER['HTTP_HOST'];
-	$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-	$extra = 'dashboard.php';
-	header("Location: http://$host$uri/$extra");
-	exit;
-}
+// Get base url.
+$host  = $_SERVER['HTTP_HOST'];
+$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+$base_url = "http://{$host}{$uri}";
 
 $link = pg_connect("host=localhost port=5432 dbname=nano_admin user=nano password=nano");
 if(!$link) die("No connected with database.");
@@ -36,11 +33,11 @@ pg_free_result($result);
 pg_close($link);
 
 if( $num_rows == 1 ){
-	 $_SESSION['logged']=true;
-	 $_SESSION['user'] = $users[0];
-	 header("Location: ./dashboard.php");
+	 $_SESSION['nano_admin']['logged']=true;
+	 $_SESSION['nano_admin']['user'] = $users[0];
+	 header("Location: {$base_url}/dashboard.php");
 }
 else{
-	$_SESSION['logged'] = false;
-	header("Location: ./logout.php");
+	$_SESSION['nano_admin']['logged'] = false;
+	header("Location: {$base_url}/logout.php");
 }

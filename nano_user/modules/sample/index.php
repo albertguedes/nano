@@ -12,14 +12,18 @@ if( !isset($_SESSION['nano_user']['logged']) || !$_SESSION['nano_user']['logged'
 	exit;
 }
 
-$modules_path = "../";
+$modules_path = "./modules";
 if( $handle=opendir($modules_path) ){
+
     $modules = array();
     while( $dir=readdir($handle) ){
+
         if( ( $dir != "." ) && ( $dir != ".." ) ){
             if( is_dir($modules_path.'/'.$dir) ){ $modules[]=$dir; }
         }
+
     }
+
 }
 
 ?><!DOCTYPE HTML>
@@ -27,8 +31,8 @@ if( $handle=opendir($modules_path) ){
     <head>
         <meta charset='utf-8' >	
         <title>sample | nano User</title>
-        <link href="../../assets/css/nano.css" rel="stylesheet" media='all' >
-        <link href="../../assets/css/nano.user.css" rel="stylesheet" media='all' >
+        <link href="../assets/css/nano.css" rel="stylesheet" media='all' >
+        <link href="../assets/css/nano.user.css" rel="stylesheet" media='all' >
         <link rel='shortcut icon' type='image/x-icon' href='../../assets/images/favicon.ico' />
     </head>
     <body>
@@ -38,23 +42,17 @@ if( $handle=opendir($modules_path) ){
 
                 <header>		
                     <figure>
-                        <a href="../../dashboard.php" >
-                            <img src='../../assets/images/logo.svg' alt='nano User' >
+                        <a href="../dashboard.php" >
+                            <img src='../assets/images/logo.svg' alt='nano User' >
                         </a>
                     </figure>
                 </header>
 
                 <ul>
-                    <li><a href='../../dashboard.php' >Dashboard</a></li>                    
-                    <li><a href='../../profile/index.php' >Profile</a></li>
-                    <li><span>Modules</span><br>
-                        <ul>
-                            <?php foreach( $modules as $module ): ?>
-                            <li><a href='../<?=$module?>/index.php' ><?=ucfirst($module)?></a></li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </li>
-                    <li><a href='../../logout.php' >Logout</a></li>
+                    <li><a href='../dashboard.php' >Dashboard</a></li>                    
+                    <li><a href='../profile/index.php' >Profile</a></li>
+                    <li><strong>Sample</strong></li>
+                    <li><a href='../logout.php' >Logout</a></li>
                 </ul>
 
             </aside>
@@ -63,7 +61,7 @@ if( $handle=opendir($modules_path) ){
 
                 <nav>
                     <ul>
-                        <li><a href='../../dashboard.php' >Dashboard</a></li>
+                        <li><a href='../dashboard.php' >Dashboard</a></li>
                         <li>/</li>
                         <li><strong>Sample</strong></li>
                     </ul>
@@ -71,7 +69,7 @@ if( $handle=opendir($modules_path) ){
 
                 <h1>Sample</h1>
 
-                <p>This is a sample module.</p>
+                <p>This is a sample module for nano user.</p>
 
             </article>
 

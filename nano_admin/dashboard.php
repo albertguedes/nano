@@ -4,16 +4,18 @@
  */
 session_start();
 
-if(!$_SESSION['logged']){
+// Get base url.
+$host  = $_SERVER['HTTP_HOST'];
+$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+$base_url = "http://{$host}{$uri}";
 
-	$host  = $_SERVER['HTTP_HOST'];
-	$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-	$extra = 'logout.php';
+// Get base_path.
+$base_path = dirname($_SERVER['SCRIPT_FILENAME']);
 
-	header("Location: http://$host$uri/$extra");
-
+// If user is not logged, redirect to logout script.
+if( !( isset($_SESSION['nano_admin']['logged']) && $_SESSION['nano_admin']['logged']) ){
+	header("Location: {$base_url}/logout.php");
 	exit;
-
 }
 
 $modules_path = "./modules";
