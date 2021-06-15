@@ -1,0 +1,107 @@
+@CHARSET "UTF-8";
+/**
+ * nano.css - css framework idless and classless
+ */
+
+ /* FONTS */
+@font-face {
+    font-family: 'DejaVu Sans Book';
+    src: url('../fonts/DejaVuSans-webfont.eot');
+    src: url('../fonts/DejaVuSans-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/DejaVuSans-webfont.woff') format('woff'),
+         url('../fonts/DejaVuSans-webfont.ttf') format('truetype'),
+         url('../fonts/DejaVuSans-webfont.svg#dejavu_sansbook') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* { margin:0; padding: 0; }
+
+/** 
+ * REGIONS 
+ */
+html {
+    color: #222222;
+    font-family: 'DejaVu Sans Book';
+    font-size: 18px;
+    height: 100%;
+}
+
+body { min-height: 100%; }
+
+main { width: 61.80%; height: 100%; margin: 0 auto;  padding-bottom: 10000px; }
+
+section, header, nav, article, footer { width: 100%; float:left; }
+
+header { margin-bottom: 60px; }
+header figure { width: 21%; margin: 0 2%; float:left;  }
+header figure a img { width: 100%; float:left; }
+
+div { width: 75%; float:left; }
+article { width: 92%; margin: 0 2%; padding: 0; float:left; }
+
+/* Fixed footer.*/
+footer { 
+    color: white; 
+    position: fixed;
+    left:0; 
+    bottom: 0; 
+    background: #444444; 
+    text-align:center;
+    padding: 20px 0; 
+}
+
+/*
+ * Line Elements. 
+ */
+a, a:link, a:visited { color: #ff5400; text-decoration: none; }
+a:hover { color: #ff6600; }
+
+p { line-height: 2em; }
+
+h1 { color: #222; line-height: 0.85em; font-size: 2.8em; text-transform: uppercase; padding:0; margin-bottom: 1em; }
+h2 { color: #333; line-height: 0.85em; font-size: 2.4em; text-transform: uppercase; padding:0; margin-bottom: 1em; font-weight:lighter; }
+h3 { color: #444; line-height: 0.85em; font-size: 2.0em; text-transform: uppercase; padding:0; margin-bottom: 1em; }
+h4 { color: #555; line-height: 0.85em; font-size: 1.6em; text-transform: uppercase; padding:0; margin-bottom: 1em; }
+h5 { color: #666; line-height: 0.85em; font-size: 1.2em; text-transform: uppercase; padding:0; margin-bottom: 1em; }
+h6 { color: #777; line-height: 0.85em; font-size: 0.8em; text-transform: uppercase; padding:0; margin-bottom: 1em; }
+
+ul { list-style: square; list-style-position: inside; margin-bottom: 40px; }
+ol { list-style: decimal; list-style-position: inside; margin-bottom: 40px; }
+
+u { color: yellow; }
+b { color: red; }
+
+/*
+ * List elements.
+ */
+dl dt { color: #222222; font-weight: bolder; text-transform: uppercase; }
+dl dd { color: #444444; font-style: italic; }
+
+table thead tr th { text-transform: uppercase; border-bottom: 2px solid #222222; margin:0 ; }
+table th, table td { padding: 5px 12px; }
+table tfoot tr td { color: #888; font-weight: bolder; border-top: 2px solid #888888; border-bottom: 2px solid #888888; margin:0 ; }
+
+/* FORMS */
+label { font-weight: bold; }
+input[type='text'], input[type='email'], input[type='number'], input[type='password'], textarea { font: normal 0.9em Arial, Helvetica, sans-serif; border: 1px solid #eee; padding: 8px 12px; }
+input[type='submit'], button { color: #fff; font: normal bold 1em Arial, Helvetica, sans-serif; text-transform: uppercase; background : #ff5400; border: 1px solid #DDDDDD; padding: 7px 12px; }
+select { border: 1px solid #eee; padding: 3px 5px 0 5px; background: #fff; }
+select option { color: #000; padding: 3px 5px; }
+
+/*
+ * Navigation Menus.
+ */
+ nav { padding: 25px 0; }
+ nav ul { width: 96%; margin:0 2%; float:left; }
+ nav ul li { text-transform: uppercase; font-weight: bolder; display: inline; list-style: none; }
+ nav ul li a { color: #ff6400; padding: 5px 12px; }
+ nav ul li a:hover { color: #ff6600; padding: 5px 12px; }
+ 
+ aside { width: 25%; float:left; }
+ aside ul { float:left; background: #ff5400; width: 76%; padding: 4%; margin: 0 8%; list-style: square; list-style-position: inside;}
+ 
+ aside ul li { color: white; font-size: 0.7em; text-transform: uppercase; padding: 5px 0; }
+ aside ul li a { color: white!important; }
+ aside ul li a:hover { color: #dcdcdc; }
+ 
